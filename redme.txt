@@ -1,0 +1,5 @@
+made PokedexObjects, Request, started Facade and main
+not using aiohttp
+need to set up object creation/json read
+argparse needs to be finished
+print data function needs to be set up
