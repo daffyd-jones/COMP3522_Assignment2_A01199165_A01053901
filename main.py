@@ -1,16 +1,31 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from pokemonretriever.request import Request
+import argparse
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def main():
+    # argparser code
+    parser = argparse.ArgumentParser(description='Simulates a Pokedex')
+    group1 = parser.add_mutually_exclusive_group(required=True)
+    group1.add_argument('mode', metavar='M', help='pokedex mode')
+
+    group2 = parser.add_mutually_exclusive_group(required=True)
+    group2.add_argument('--inputfile', )
+    parser.add_argument('--input', )
+    request = Request()
+
+# def main():
+#     parser = argparse.ArgumentParser(description='Process some integers.')
+#     parser.add_argument('integers', metavar='N', type=int, nargs='+',
+#                         help='an integer for the accumulator')
+#     parser.add_argument('--sum', dest='accumulate', action='store_const',
+#                         const=sum, default=max,
+#                         help='sum the integers (default: find the max)')
+#
+#     args = parser.parse_args('')
+#     print(args.accumulate(args.integers))
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    main()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
