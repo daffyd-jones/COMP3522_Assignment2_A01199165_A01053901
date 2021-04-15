@@ -4,3 +4,7 @@ class Request:
         self.input = None
         self.expanded = None
         self.output = None
+        self.endpoint = None
+
+    def get_mode(self):
+        return self.mode

@@ -1,3 +1,4 @@
+from pokemonretriever.facade import Facade
 from pokemonretriever.request import Request
 import argparse
 
@@ -12,6 +13,16 @@ def main():
     group2.add_argument('--inputfile', )
     parser.add_argument('--input', )
     request = Request()
+    # load request
+    # -------
+    facade = Facade()
+    poke_list = facade.execute_request(request)
+    print_content(poke_list)
+
+
+def print_content(poke_list):
+    for i in poke_list:
+        print(i)
 
 # def main():
 #     parser = argparse.ArgumentParser(description='Process some integers.')

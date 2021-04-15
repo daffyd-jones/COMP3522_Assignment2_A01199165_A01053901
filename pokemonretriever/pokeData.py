@@ -15,6 +15,14 @@ class Pokemon(PokedexObject):
         self.abilities = abilities
         self.moves = moves
 
+    def __str__(self):
+        print(f"Name:      -- {self.name} \n"
+              f"Id:        -- {self.id}"
+              f"Height:    -- {self.weight}"
+              f"Stats:     -- {self.stats}"
+              f"Types:     -- {self.types}"
+              f"Abilities: -- {self.moves}")
+
 
 class Ability(PokedexObject):
     def __init__(self, name, pokeId, generation,
@@ -25,11 +33,24 @@ class Ability(PokedexObject):
         self.shortEffect = shortEffect
         self.pokemon = pokemon
 
+    def __str__(self):
+        print(f"Name:       -- {self.name}"
+              f"ID:         -- {self.id}"
+              f"Generation: -- {self.generation}"
+              f"Effect:     -- {self.effect}"
+              f"Sh-Effect:  -- {self.shortEffect}"
+              f"Pokemon:    -- {self.pokemon}")
+
 
 class Stat(PokedexObject):
     def __init__(self, name, pokeId, battleOnly):
         super().__init__(name, pokeId)
         self.battleOnly = battleOnly
+
+    def __str__(self):
+        print(f"Name:         -- {self.name}"
+              f"ID:           -- {self.id}"
+              f"Battle Only:  -- {self.battleOnly}")
 
 
 class Moves(PokedexObject):
@@ -44,3 +65,14 @@ class Moves(PokedexObject):
         self.types = types
         self.damageClass = damageClass
         self.effect = effect
+
+    def __str__(self):
+        print(f"Name:        -- {self.name}"
+              f"ID:          -- {self.id}"
+              f"Generations: -- {self.generation}"
+              f"Accuracy:    -- {self.accuracy}"
+              f"PP:          -- {self.pp}"
+              f"Power:       -- {self.power}"
+              f"Types:       -- {self.types}"
+              f"Damage Class -- {self.damageClass}"
+              f"Effect:      -- {self.effect}")
