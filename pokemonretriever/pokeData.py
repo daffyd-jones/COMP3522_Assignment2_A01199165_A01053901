@@ -1,4 +1,7 @@
-class PokedexObject:
+from abc import ABC
+
+
+class PokedexObject(ABC):
     def __init__(self, name, pokeId):
         self.name = name
         self.id = pokeId

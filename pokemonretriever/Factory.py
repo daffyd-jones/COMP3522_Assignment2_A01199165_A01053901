@@ -1,4 +1,4 @@
-from pokemonretriever.facade import Mode
+from facade import Mode
 from pokemonretriever.pokeData import Pokemon, Ability, Moves
 
 

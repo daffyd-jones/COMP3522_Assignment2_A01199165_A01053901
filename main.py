@@ -1,4 +1,4 @@
-from pokemonretriever.facade import Facade
+from facade import Facade
 from pokemonretriever.request import Request
 import argparse
 
@@ -6,17 +6,18 @@ import argparse
 def main():
     # argparser code
     parser = argparse.ArgumentParser(description='Simulates a Pokedex')
-    group1 = parser.add_mutually_exclusive_group(required=True)
-    group1.add_argument('mode', metavar='M', help='pokedex mode')
-
-    group2 = parser.add_mutually_exclusive_group(required=True)
-    group2.add_argument('--inputfile', )
-    parser.add_argument('--input', )
-    request = Request()
-    # load request
-    # -------
+    parser.add_argument('mode', choices=["pokemon", "ability", "move"], required=True, help="Modes: pokemon | ability "
+                                                                                            "| move", metavar='M',
+                        dest='mode')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--inputfile', dest='type')
+    group.add_argument('--inputdata', dest='type')
+    parser.add_argument('--expanded', action='store_true', dest='exp')
+    parser.add_argument('--output', dest='out')
+    args = parser.parse_args()
+    request = Request(args.mode, args.type, args.exp, args.out)
     facade = Facade()
-    poke_list = facade.execute_request(request)
+    poke_list = execute_request(request)
     print_content(poke_list)
 
 
