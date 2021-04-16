@@ -1,6 +1,7 @@
 import facade
 from pokemonretriever.request import Request
 import argparse
+import asyncio
 
 
 def main():
@@ -15,7 +16,8 @@ def main():
     parser.add_argument('--output', dest='out')
     args = parser.parse_args()
     request = Request(args.mode, args.type, args.exp, args.out)
-    facade.execute_request(request)
+    loop = asyncio.get_event_loop()
+    pokedex_object_list = loop.run_until_complete(facade.execute_request(request))
 
 
 def print_content(poke_list):
