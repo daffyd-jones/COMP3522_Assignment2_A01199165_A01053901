@@ -9,7 +9,7 @@ def set_environment(request):
     mode = request.get_mode()
     if mode == "pokemon":
         url = "https://pokeapi.co/api/v2/pokemon/"
-        factory = pokemonFactory()
+        factory = pokemonFactory
     elif mode == "ability":
         url = "https://pokeapi.co/api/v2/ability/"
         factory = abilityFactory()
@@ -18,7 +18,7 @@ def set_environment(request):
         factory = moveFactory()
     else:
         raise ValueError
-    return url, None, request.get_input(), request.get_output(), request.is_expanded()
+    return url, factory, request.get_input(), request.get_output(), request.is_expanded()
 
 
 def parse_file(url):
@@ -53,16 +53,14 @@ async def execute_request(request) -> PokedexObject:
             print("Processing request list")
             list_tasks = [asyncio.create_task(get_pokedex_data(url + id_ + '/', session))
                           for id_ in search_id]
-            response = await asyncio.gather(*list_tasks)
-            for r in response:
-                print("Printing a response: \n")
-                print("----------------\n")
-                print(r)
-                print("\n------------------")
+            responses = await asyncio.gather(*list_tasks)
+            response_tasks = [asyncio.create_task(factory.create_pokedex_entry(r, is_expanded)) for r in responses]
+            object_list = await asyncio.gather(*response_tasks)
     else:
         async with aiohttp.ClientSession as session:
             print("Processing singular request")
             async_task = asyncio.create_task(get_pokedex_data(url + search_id + '/', session))
             response = await async_task
-            print(response)
-    return response
+            loop = asyncio.get_event_loop()
+            object_list = loop.run_until_complete(factory.create_pokedex_entry(response, is_expanded))
+    return object_list
