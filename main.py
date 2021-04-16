@@ -3,6 +3,25 @@ from pokemonretriever.request import Request
 import argparse
 
 
+class FileHandler:
+    def __init__(self, file):
+        self.file = file
+
+    def file_in(self):
+        line_list = []
+        with open(self.file, "r") as file:
+            for line in file:
+                line = line.strip()
+                line_list.append(line)
+        return line_list
+
+    def file_out(self, poke_list):
+        with open(self.file, 'w') as file:
+            for poke in poke_list:
+                file.write("%s\n" % poke)
+        print(f"file {self.file} has been written")
+
+
 def main():
     # argparser code
     parser = argparse.ArgumentParser(description='Simulates a Pokedex')
@@ -17,24 +36,13 @@ def main():
     args = parser.parse_args()
     request = Request(args.mode, args.type, args.exp, args.out)
     facade = Facade()
-    poke_list = execute_request(request)
+    poke_list = facade.execute_request(request)
     print_content(poke_list)
 
 
 def print_content(poke_list):
     for i in poke_list:
         print(i)
-
-# def main():
-#     parser = argparse.ArgumentParser(description='Process some integers.')
-#     parser.add_argument('integers', metavar='N', type=int, nargs='+',
-#                         help='an integer for the accumulator')
-#     parser.add_argument('--sum', dest='accumulate', action='store_const',
-#                         const=sum, default=max,
-#                         help='sum the integers (default: find the max)')
-#
-#     args = parser.parse_args('')
-#     print(args.accumulate(args.integers))
 
 
 if __name__ == '__main__':
