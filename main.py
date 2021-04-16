@@ -1,4 +1,3 @@
-from facade import Facade
 import facade
 from pokemonretriever.request import Request
 import argparse
@@ -7,23 +6,22 @@ import argparse
 def main():
     # argparser code
     parser = argparse.ArgumentParser(description='Simulates a Pokedex')
-    parser.add_argument('mode', choices=["pokemon", "ability", "move"], required=True, help="Modes: pokemon | ability "
-                                                                                            "| move", metavar='M',
-                        dest='mode')
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--inputfile', dest='type')
-    group.add_argument('--inputdata', dest='type')
+    parser.add_argument('mode', choices=["pokemon", "ability", "move"], help="Modes: pokemon | ability "
+                                                                             "| move", metavar='M')
+    input_group = parser.add_mutually_exclusive_group(required=True)
+    input_group.add_argument('--inputfile', dest='type')
+    input_group.add_argument('--inputdata', dest='type')
     parser.add_argument('--expanded', action='store_true', dest='exp')
     parser.add_argument('--output', dest='out')
     args = parser.parse_args()
     request = Request(args.mode, args.type, args.exp, args.out)
-    my_facade = Facade()
     facade.execute_request(request)
 
 
 def print_content(poke_list):
     for i in poke_list:
         print(i)
+
 
 # def main():
 #     parser = argparse.ArgumentParser(description='Process some integers.')
