@@ -1,12 +1,5 @@
-import json
 import aiohttp
 import asyncio
-from pokemonretriever.Factory import Factory
-
-
-class Facade:
-    def __init__(self):
-        pass
 
 
 def set_environment(request):
