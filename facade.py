@@ -1,18 +1,21 @@
 import aiohttp
 import asyncio
 
+from pokemonretriever.Factory import pokemonFactory
+from pokemonretriever.pokeData import PokedexObject
+
 
 def set_environment(request):
     mode = request.get_mode()
     if mode == "pokemon":
         url = "https://pokeapi.co/api/v2/pokemon/"
-        # factory = pokemonFactory()
+        factory = pokemonFactory()
     elif mode == "ability":
         url = "https://pokeapi.co/api/v2/ability/"
-        # factory = abilityFactory()
+        factory = abilityFactory()
     elif mode == "move":
         url = "https://pokeapi.co/api/v2/move/"
-        # factory = moveFactory()
+        factory = moveFactory()
     else:
         raise ValueError
     return url, None, request.get_input(), request.get_output(), request.is_expanded()
@@ -42,7 +45,7 @@ async def get_pokedex_data(url, session):
     return json_dict
 
 
-async def execute_request(request):
+async def execute_request(request) -> PokedexObject:
     url, factory, request_input, request_output, is_expanded = set_environment(request)
     search_id = handle_input(request_input)
     if type(search_id) == list:

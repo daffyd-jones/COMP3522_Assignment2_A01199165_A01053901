@@ -1,23 +1,17 @@
-from facade import Mode
-from pokemonretriever.pokeData import Pokemon, Ability, Moves
+from pokemonretriever.pokeData import Pokemon, Ability, Moves, Stat
+from abc import ABC, abstractmethod
 
 
-class Factory:
-    def __init__(self, mode):
-        self.mode = mode
+class Factory(ABC):
 
-    def make(self, **kwargs):
-        if self.mode == Mode.POKEMON:
-            return Pokemon(**kwargs)
-        elif self.mode == Mode.ABILITY:
-            return Ability(**kwargs)
-        elif self.mode == Mode.MOVE:
-            return Moves(**kwargs)
+    @classmethod
+    @abstractmethod
+    def create_pokedex_entry(cls, d: dict, expanded: bool):
+        pass
 
-    def filter_json(self, json):
-        if self.mode == Mode.POKEMON:
-            pass
-        if self.mode == Mode.ABILITY:
-            pass
-        if self.mode == Mode.MOVE:
-            pass
+
+class pokemonFactory(Factory):
+
+    @classmethod
+    def create_pokedex_entry(cls, d: dict, expanded: bool):
+        return Pokemon(d.get('name'), d.get('id'), d.get('height'), d.get('weight'), )
