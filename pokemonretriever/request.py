@@ -2,15 +2,15 @@ class Request:
 
     def __init__(self, m, t, e, o):
         self.mode = m
-        self.inputType = t
+        self.input = t
         self.expanded = e
         self.output = o
 
     def get_mode(self):
         return self.mode
 
-    def get_iput_type(self):
-        return self.inputType
+    def get_input(self):
+        return self.input
 
     def is_expanded(self):
         return self.expanded

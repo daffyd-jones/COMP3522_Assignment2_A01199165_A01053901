@@ -1,4 +1,5 @@
 from facade import Facade
+import facade
 from pokemonretriever.request import Request
 import argparse
 
@@ -16,9 +17,8 @@ def main():
     parser.add_argument('--output', dest='out')
     args = parser.parse_args()
     request = Request(args.mode, args.type, args.exp, args.out)
-    facade = Facade()
-    poke_list = execute_request(request)
-    print_content(poke_list)
+    my_facade = Facade()
+    facade.execute_request(request)
 
 
 def print_content(poke_list):
