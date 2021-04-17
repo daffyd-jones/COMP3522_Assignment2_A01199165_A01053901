@@ -18,6 +18,7 @@ def main():
     request = Request(args.mode, args.type, args.exp, args.out)
     loop = asyncio.get_event_loop()
     pokedex_object_list = loop.run_until_complete(facade.execute_request(request))
+    print(pokedex_object_list)
 
 
 def print_content(poke_list):
