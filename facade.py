@@ -1,6 +1,8 @@
 import aiohttp
 import asyncio
 
+from aiohttp import ContentTypeError
+
 from pokemonretriever.Factory import pokemonFactory, abilityFactory, moveFactory
 from pokemonretriever.pokeData import PokedexObject
 
@@ -20,13 +22,13 @@ def set_environment(request):
     mode = request.get_mode()
     if mode == "pokemon":
         url = "https://pokeapi.co/api/v2/pokemon/"
-        factory = pokemonFactory
+        factory = 1
     elif mode == "ability":
         url = "https://pokeapi.co/api/v2/ability/"
-        factory = abilityFactory
+        factory = 2
     elif mode == "move":
         url = "https://pokeapi.co/api/v2/move/"
-        factory = moveFactory
+        factory = 3
     else:
         raise ValueError
     return url, factory, request.get_input(), request.get_output(), request.is_expanded()
@@ -56,10 +58,13 @@ async def get_pokedex_data(url, session):
     :param session: async session - "async with" var
     :return: json dict
     """
-    response = await session.request(method="GET", url=url)
-    json_dict = await response.json()
-    print("Got json data")
-    return json_dict
+    try:
+        response = await session.request(method="GET", url=url)
+        json_dict = await response.json()
+        print("Got json data")
+        return json_dict
+    except ContentTypeError:
+        pass
 
 
 async def execute_request(request) -> PokedexObject:
@@ -70,20 +75,36 @@ async def execute_request(request) -> PokedexObject:
     :param request: request to be processed - Request
     :return: PokedexObject list
     """
+
     url, factory, request_input, request_output, is_expanded = set_environment(request)
     search_id = handle_input(request_input)
     print(search_id)
     async with aiohttp.ClientSession() as session:
         if type(search_id) == list:
+
             print("Processing request list")
+            print(url)
             list_tasks = [asyncio.create_task(get_pokedex_data(url + id_ + '/', session))
                           for id_ in search_id]
             responses = await asyncio.gather(*list_tasks)
-            response_tasks = [asyncio.create_task(factory.create_pokedex_entry(r, is_expanded, session)
-                                                  ) for r in responses]
+            if factory == 1:
+                response_tasks = [asyncio.create_task(pokemonFactory.create_pokedex_entry(r, is_expanded, session)
+                                                      ) for r in responses]
+            elif factory == 2:
+                response_tasks = [asyncio.create_task(abilityFactory.create_pokedex_entry(r, is_expanded, session)
+                                                      ) for r in responses]
+            elif factory == 3:
+                response_tasks = [asyncio.create_task(moveFactory.create_pokedex_entry(r, is_expanded, session)
+                                                      ) for r in responses]
             object_list = await asyncio.gather(*response_tasks)
+
         else:
             print("Processing singular request")
             response = await get_pokedex_data(url + search_id + '/', session)
-            object_list = await factory.create_pokedex_entry(response, is_expanded, session)
+            if factory == 1:
+                object_list = await pokemonFactory.create_pokedex_entry(response, is_expanded, session)
+            elif factory == 2:
+                object_list = await abilityFactory.create_pokedex_entry(response, is_expanded, session)
+            elif factory == 3:
+                object_list = await moveFactory.create_pokedex_entry(response, is_expanded, session)
     return object_list

@@ -61,6 +61,7 @@ def main():
     :return: void
     """
     # argparser code
+
     parser = argparse.ArgumentParser(description='Simulates a Pokedex')
     parser.add_argument('mode', choices=["pokemon", "ability", "move"], help="Modes: pokemon | ability "
                                                                              "| move", metavar='M')
@@ -84,10 +85,9 @@ def main():
             writer = FileHandler(request.get_output())
             writer.file_out(pokedex_object_list)
         else:
-            pass
+
             print_content(pokedex_object_list)
     else:
-        pass
         print_content(pokedex_object_list)
 
 
@@ -97,11 +97,17 @@ def print_content(poke_list):
     :param poke_list: pokedex_object_list - list
     :return: void
     """
-    now = datetime.datetime.now()
-    print(f"Timestamp: {now}\n"
-          f"Number of requests: {len(poke_list)}\n")
-    for i in poke_list:
-        print(i)
+    if poke_list is not None:
+        now = datetime.datetime.now()
+        print(f"Timestamp: {now}\n"
+              f"Number of requests: {len(poke_list)}\n")
+        for i in poke_list:
+            if i is None:
+                print("An error occured. Skipping Request")
+            else:
+                print(i)
+    else:
+        print("An error occurred. Skipping Request")
 
 
 if __name__ == '__main__':

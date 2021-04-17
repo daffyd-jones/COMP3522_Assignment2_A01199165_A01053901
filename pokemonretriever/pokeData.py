@@ -192,7 +192,7 @@ class Stat(PokedexObject):
 class Moves(PokedexObject):
     def __init__(self, name, level_acquired, poke_id=None, generation=None,
                  accuracy=None, pp=None, power=None, types=None,
-                 damage_class=None, effect=None):
+                 damage_class=None):
         super().__init__(name, poke_id)
         self.level_acquired = level_acquired
         self.generation = generation
@@ -201,7 +201,6 @@ class Moves(PokedexObject):
         self.power = power
         self.types = types
         self.damageClass = damage_class
-        self.effect = effect
 
     def __str__(self):
         return f"Name: {self.name}\n" \
@@ -211,8 +210,7 @@ class Moves(PokedexObject):
                f"PP: {self.pp}\n" \
                f"Power: {self.power}\n" \
                f"Types: {self.types}\n" \
-               f"Damage Class: {self.damageClass}\n" \
-               f"Effect (Short): {self.effect}\n"
+               f"Damage Class: {self.damageClass}\n"
 
     def __repr__(self):
         return f"Name: {self.name}\n" \
@@ -222,5 +220,4 @@ class Moves(PokedexObject):
                f"PP: {self.pp}\n" \
                f"Power: {self.power}\n" \
                f"Types: {self.types}\n" \
-               f"Damage Class: {self.damageClass}\n" \
-               f"Effect (Short): {self.effect}\n"
+               f"Damage Class: {self.damageClass}\n"
