@@ -6,6 +6,17 @@ from pokemonretriever.pokeData import PokedexObject
 
 
 def set_environment(request):
+    """
+    sets the mode that the request is querying
+    sets factoty to appropriate Factory sub-class
+    - pokemon, ability, move
+    :param request: Request obj
+    :return: endpoint url - string
+             appropriate Factory - Factory
+             request input - string
+             request output - string
+             request is_expanded - bool
+    """
     mode = request.get_mode()
     if mode == "pokemon":
         url = "https://pokeapi.co/api/v2/pokemon/"
@@ -30,6 +41,15 @@ def parse_file(url):
         return data
 
 
+def parse_file(url):
+    with open(url, mode='r', encoding='utf-8') as input_file:
+        data = list()
+        for line in input_file.readlines():
+            if line != "\n":
+                data.append(line)
+        return data
+
+
 def handle_input(request_input):
     if '.txt' in str(request_input):
         search_id = parse_file(request_input)
@@ -39,6 +59,12 @@ def handle_input(request_input):
 
 
 async def get_pokedex_data(url, session):
+    """
+    queries endpoint and processes/returns it to/as json
+    :param url: endpoint - string
+    :param session: async session - "async with" var
+    :return: json dict
+    """
     response = await session.request(method="GET", url=url)
     json_dict = await response.json()
     print("Got json data")
@@ -46,6 +72,13 @@ async def get_pokedex_data(url, session):
 
 
 async def execute_request(request) -> PokedexObject:
+    """
+    processes facade functionality request
+
+    async queries endpoint and builds PokedexObject list
+    :param request: request to be processed - Request
+    :return: PokedexObject list
+    """
     url, factory, request_input, request_output, is_expanded = set_environment(request)
     search_id = handle_input(request_input)
     async with aiohttp.ClientSession() as session:

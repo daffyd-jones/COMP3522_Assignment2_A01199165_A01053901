@@ -1,8 +1,8 @@
 + made PokedexObjects, Request, started Facade and main
 + facade mostly done
 + object factory mostly built
++ file read/write done
 - json parser needs to be finished
 - argparse/request bulid process needs to be finished
 - not using aiohttp
-- file read/write needs to be done
 - expansion needs to be implemented

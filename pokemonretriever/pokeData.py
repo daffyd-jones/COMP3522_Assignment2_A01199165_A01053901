@@ -2,14 +2,38 @@ from abc import ABC
 
 
 class PokedexObject(ABC):
+    """
+    PokedexObject abstract class
+    """
     def __init__(self, name, pokeId):
+        """
+        PokedexObject init
+        :param name: name of pokemon - string
+        :param pokeId: pokemon id - string
+        """
         self.name = name
         self.id = pokeId
 
 
 class Pokemon(PokedexObject):
+    """
+    Pokemon class
+
+    - extends PokedexObject
+    """
     def __init__(self, name, pokeId, height, weight,
                  stats, types, abilities, moves):
+        """
+        Pokemon init
+        :param name: pokemon name - string
+        :param pokeId: pokemon id - string
+        :param height: pokemon height - string
+        :param weight: pokemon weight - string
+        :param stats: pokemons stats - if expanded is Stats obj else list
+        :param types: pokemon type - string
+        :param abilities: pokemon abilities - if expanded is Abilities obj else list
+        :param moves: pokemon moves - if expanded is Moves obj else list
+        """
         super().__init__(name, pokeId)
         self.height = height
         self.weight = weight
@@ -19,17 +43,56 @@ class Pokemon(PokedexObject):
         self.moves = moves
 
     def __str__(self):
-        print(f"Name:      -- {self.name} \n"
-              f"Id:        -- {self.id}"
-              f"Height:    -- {self.weight}"
-              f"Stats:     -- {self.stats}"
-              f"Types:     -- {self.types}"
-              f"Abilities: -- {self.moves}")
+        """
+        string method
+        :return: object printout - string
+        """
+        stat = ""
+        for s in self.stats:
+            stat + s + "\n"
+        abilt = ""
+        for a in self.abilities:
+            abilt + a + "\n"
+        move = ""
+        for m in self.moves:
+            move = m + "\n\n"
+        return f"Name: {self.name}\n" \
+               f"Id: {self.id}\n" \
+               f"Height: {self.height} decimeters\n" \
+               f"weight: {self.weight} hectograms\n" \
+               f"Types: {self.types}\n" \
+               f"\n" \
+               f"Stats:\n" \
+               f"-----\n" \
+               f"{stat}\n" \
+               f"\n" \
+               f"Abilities:\n" \
+               f"-----\n" \
+               f"\n" \
+               f"{abilt}\n" \
+               f"\n" \
+               f"Moves:\n" \
+               f"\n" \
+               f"{move}\n"
 
 
 class Ability(PokedexObject):
+    """
+    Ability class
+
+    - extends PokedexObject
+    """
     def __init__(self, name, pokeId=None, generation=None,
                  effect=None, shortEffect=None, pokemon=None):
+        """
+        Ability init
+        :param name: ability name - string
+        :param pokeId: ability id - string
+        :param generation: ability generation - string
+        :param effect: ability effect - string
+        :param shortEffect: ability effect (short) - string
+        :param pokemon: ability pokemon - list
+        """
         super().__init__(name, pokeId)
         self.generation = generation
         self.effect = effect
@@ -37,15 +100,24 @@ class Ability(PokedexObject):
         self.pokemon = pokemon
 
     def __str__(self):
-        print(f"Name:       -- {self.name}"
-              f"ID:         -- {self.id}"
-              f"Generation: -- {self.generation}"
-              f"Effect:     -- {self.effect}"
-              f"Sh-Effect:  -- {self.shortEffect}"
-              f"Pokemon:    -- {self.pokemon}")
+        poke = ""
+        for p in self.pokemon:
+            poke + p + ", "
+        return f"Name: {self.name}\n" \
+               f"ID: {self.id}\n" \
+               f"Generation: {self.generation}\n" \
+               f"Effect: {self.effect}\n" \
+               f"Effect(Short): {self.shortEffect}\n" \
+               f"Pokemon: {poke}\n"
 
 
 class Stat(PokedexObject):
+    """
+    Stat object
+
+    - extends PokedexObject
+    - used when Pokemon is extended
+    """
     def __init__(self, name, base_stat, url=None, name_expanded=None, pokeId=None, isBattleOnly=None, isExpanded=False):
         super().__init__(name, pokeId)
         self.base_stat = base_stat
@@ -55,9 +127,9 @@ class Stat(PokedexObject):
         self.isExpanded = isExpanded
 
     def __str__(self):
-        print(f"Name:         -- {self.name}"
-              f"ID:           -- {self.id}"
-              f"Battle Only:  -- {self.isBattleOnly}")
+        return f"Name: {self.name}\n" \
+               f"ID: {self.id}\n" \
+               f"Battle Only: {self.isBattleOnly}\n"
 
 
 class Moves(PokedexObject):
@@ -75,12 +147,12 @@ class Moves(PokedexObject):
         self.effect = effect
 
     def __str__(self):
-        print(f"Name:        -- {self.name}"
-              f"ID:          -- {self.id}"
-              f"Generations: -- {self.generation}"
-              f"Accuracy:    -- {self.accuracy}"
-              f"PP:          -- {self.pp}"
-              f"Power:       -- {self.power}"
-              f"Types:       -- {self.types}"
-              f"Damage Class -- {self.damageClass}"
-              f"Effect:      -- {self.effect}")
+        return f"Name: {self.name}\n" \
+               f"ID: {self.id}\n" \
+               f"Generations: {self.generation}\n" \
+               f"Accuracy: {self.accuracy}\n" \
+               f"PP: {self.pp}\n" \
+               f"Power: {self.power}\n" \
+               f"Types: {self.types}\n" \
+               f"Damage Class: {self.damageClass}\n" \
+               f"Effect (Short): {self.effect}\n"
