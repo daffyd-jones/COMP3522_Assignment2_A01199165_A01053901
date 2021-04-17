@@ -61,7 +61,6 @@ async def get_pokedex_data(url, session):
     try:
         response = await session.request(method="GET", url=url)
         json_dict = await response.json()
-        print("Got json data")
         return json_dict
     except ContentTypeError:
         pass
@@ -78,12 +77,8 @@ async def execute_request(request) -> PokedexObject:
 
     url, factory, request_input, request_output, is_expanded = set_environment(request)
     search_id = handle_input(request_input)
-    print(search_id)
     async with aiohttp.ClientSession() as session:
         if type(search_id) == list:
-
-            print("Processing request list")
-            print(url)
             list_tasks = [asyncio.create_task(get_pokedex_data(url + id_ + '/', session))
                           for id_ in search_id]
             responses = await asyncio.gather(*list_tasks)
@@ -99,7 +94,6 @@ async def execute_request(request) -> PokedexObject:
             object_list = await asyncio.gather(*response_tasks)
 
         else:
-            print("Processing singular request")
             response = await get_pokedex_data(url + search_id + '/', session)
             if factory == 1:
                 object_list = await pokemonFactory.create_pokedex_entry(response, is_expanded, session)
