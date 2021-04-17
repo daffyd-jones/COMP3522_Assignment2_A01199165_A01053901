@@ -44,18 +44,57 @@ class Pokemon(PokedexObject):
 
     def __str__(self):
         """
-        string method
-        :return: object printout - string
-        """
+                string method
+                :return: object printout - string
+                """
         stat = ""
         for s in self.stats:
-            stat + s + "\n"
+            a_string = str(s)
+            stat = stat + a_string + "\n"
         abilt = ""
         for a in self.abilities:
-            abilt + a + "\n"
+            a_string = str(a)
+            abilt = abilt + a_string + "\n"
         move = ""
         for m in self.moves:
-            move = m + "\n\n"
+            a_string = str(m)
+            move += a_string + "\n\n"
+        return f"Name: {self.name}\n" \
+               f"Id: {self.id}\n" \
+               f"Height: {self.height} decimeters\n" \
+               f"weight: {self.weight} hectograms\n" \
+               f"Types: {self.types}\n" \
+               f"\n" \
+               f"Stats:\n" \
+               f"-----\n" \
+               f"{stat}\n" \
+               f"\n" \
+               f"Abilities:\n" \
+               f"-----\n" \
+               f"\n" \
+               f"{abilt}\n" \
+               f"\n" \
+               f"Moves:\n" \
+               f"\n" \
+               f"{move}\n"
+
+    def __repr__(self):
+        """
+                string method
+                :return: object printout - string
+                """
+        stat = ""
+        for s in self.stats:
+            a_string = str(s)
+            stat = stat + a_string + "\n"
+        abilt = ""
+        for a in self.abilities:
+            a_string = str(a)
+            abilt = abilt + a_string + "\n"
+        move = ""
+        for m in self.moves:
+            a_string = str(m)
+            move += a_string + "\n\n"
         return f"Name: {self.name}\n" \
                f"Id: {self.id}\n" \
                f"Height: {self.height} decimeters\n" \
@@ -102,7 +141,20 @@ class Ability(PokedexObject):
     def __str__(self):
         poke = ""
         for p in self.pokemon:
-            poke + p + ", "
+            a_string = str(p)
+            poke += a_string + ", "
+        return f"Name: {self.name}\n" \
+               f"ID: {self.id}\n" \
+               f"Generation: {self.generation}\n" \
+               f"Effect: {self.effect}\n" \
+               f"Effect(Short): {self.shortEffect}\n" \
+               f"Pokemon: {poke}\n"
+
+    def __repr__(self):
+        poke = ""
+        for p in self.pokemon:
+            a_string = str(p)
+            poke += a_string + ", "
         return f"Name: {self.name}\n" \
                f"ID: {self.id}\n" \
                f"Generation: {self.generation}\n" \
@@ -131,6 +183,11 @@ class Stat(PokedexObject):
                f"ID: {self.id}\n" \
                f"Battle Only: {self.isBattleOnly}\n"
 
+    def __repr__(self):
+        return f"Name: {self.name}\n" \
+               f"ID: {self.id}\n" \
+               f"Battle Only: {self.isBattleOnly}\n"
+
 
 class Moves(PokedexObject):
     def __init__(self, name, level_acquired, poke_id=None, generation=None,
@@ -147,6 +204,17 @@ class Moves(PokedexObject):
         self.effect = effect
 
     def __str__(self):
+        return f"Name: {self.name}\n" \
+               f"ID: {self.id}\n" \
+               f"Generations: {self.generation}\n" \
+               f"Accuracy: {self.accuracy}\n" \
+               f"PP: {self.pp}\n" \
+               f"Power: {self.power}\n" \
+               f"Types: {self.types}\n" \
+               f"Damage Class: {self.damageClass}\n" \
+               f"Effect (Short): {self.effect}\n"
+
+    def __repr__(self):
         return f"Name: {self.name}\n" \
                f"ID: {self.id}\n" \
                f"Generations: {self.generation}\n" \

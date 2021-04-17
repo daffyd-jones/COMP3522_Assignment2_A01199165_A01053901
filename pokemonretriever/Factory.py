@@ -57,7 +57,6 @@ class pokemonFactory(Factory):
             pokemon_lists = list()
             for a_list in p_lists:
                 temp_list = [p.get("pokemon").get("name") for p in a_list]
-                print(temp_list)
                 pokemon_lists.append(temp_list)
             list_of_abilities = []
             for (a1, a2, p) in zip(ability_dicts, ability_responses, pokemon_lists):
@@ -96,8 +95,13 @@ class abilityFactory(Factory):
         list_ability_tasks = [asyncio.create_task(get_expanded_object(url, session)) for url in ability_urls]
         ability_responses = await asyncio.gather(*list_ability_tasks)
         ability_dicts = [a for a in d.get("abilities")]
-        p_lists = [r.get("pokemon") for r in ability_responses]
-        pokemon_lists = [p.get("pokemon").get("name") for p in p_lists]
+        p_lists = list()
+        for r in ability_responses:
+            p_lists.append(r.get("pokemon"))
+        pokemon_lists = list()
+        for a_list in p_lists:
+            temp_list = [p.get("pokemon").get("name") for p in a_list]
+            pokemon_lists.append(temp_list)
         list_of_abilities = []
         for (a1, a2, p) in zip(ability_dicts, ability_responses, pokemon_lists):
             list_of_abilities.append(Ability(a1.get("ability").get("name"), a2.get("id"), a2.get("generation")
@@ -120,7 +124,8 @@ class moveFactory(Factory):
         move_dicts = [m for m in d.get("moves")]
         list_of_moves = []
         for (m1, m2) in zip(move_dicts, move_responses):
-            list_of_moves.append(Moves(m1.get("move").get("name"), m1.get("version_group_details")
+            list_details = m1.get("version_group_details")
+            list_of_moves.append(Moves(m1.get("move").get("name"), list_details[0]
                                        .get("level_learned_at"), m2.get("id"), m2.get("generation").get("name"), m2
                                        .get("accuracy"), m2.get("pp"), m2.get("power"), m2.get("type").get("name"),
                                        m2.get("damage_class").get("name"), m2.get("effect_entries")[0]

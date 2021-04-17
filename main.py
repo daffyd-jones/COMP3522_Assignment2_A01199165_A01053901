@@ -73,17 +73,21 @@ def main():
     request = Request(args.mode, args.type, args.exp, args.out)
     loop = asyncio.get_event_loop()
     pokedex_object_list = loop.run_until_complete(facade.execute_request(request))
-    print(pokedex_object_list)
     # if ".txt" in request.get_input():
     #     reader = FileHandler(request.get_input())
     #     file_list = reader.file_in()
     #     request.set_input(file_list)
     # facade = Facade()
     # poke_list = execute_request(request)
-    if ".txt" in request.get_output():
-        writer = FileHandler(request.get_output())
-        writer.file_out(pokedex_object_list)
+    if request.get_output() is not None:
+        if ".txt" in request.get_output():
+            writer = FileHandler(request.get_output())
+            writer.file_out(pokedex_object_list)
+        else:
+            pass
+            print_content(pokedex_object_list)
     else:
+        pass
         print_content(pokedex_object_list)
 
 

@@ -41,15 +41,6 @@ def parse_file(url):
         return data
 
 
-def parse_file(url):
-    with open(url, mode='r', encoding='utf-8') as input_file:
-        data = list()
-        for line in input_file.readlines():
-            if line != "\n":
-                data.append(line)
-        return data
-
-
 def handle_input(request_input):
     if '.txt' in str(request_input):
         search_id = parse_file(request_input)
@@ -81,6 +72,7 @@ async def execute_request(request) -> PokedexObject:
     """
     url, factory, request_input, request_output, is_expanded = set_environment(request)
     search_id = handle_input(request_input)
+    print(search_id)
     async with aiohttp.ClientSession() as session:
         if type(search_id) == list:
             print("Processing request list")
