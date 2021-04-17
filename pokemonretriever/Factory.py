@@ -62,4 +62,5 @@ class pokemonFactory(Factory):
             list_of_moves = [Moves(m.get("move").get("name"), m.get("version_group_details")
                                    .get("level_learned_at")) for m in d.get("moves")]
         return Pokemon(d.get('name'), d.get('id'), d.get('height'), d.get('weight'), list_of_stats, list_of_types,
-                        list_of_abilities, list_of_moves)
+                       list_of_abilities, list_of_moves)
+
